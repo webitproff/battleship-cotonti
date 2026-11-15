@@ -5,6 +5,9 @@ A modern Battleship plugin for the [Cotonti](https://www.cotonti.com) CMS/CMF.
 Play against the computer or in PvP with other authorized users. Classic rules, neat Bootstrap 5.3 interface, clear board layout, and live notifications.
 
 ---
+<img width="1920" height="1080" alt="battleship-cotonti" src="https://github.com/user-attachments/assets/645e6273-ef3d-4993-9c54-19225c879f35" />
+
+
 
 ## Features
 
