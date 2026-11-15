@@ -6,6 +6,11 @@ Play against the computer or in PvP with other authorized users. Classic rules, 
 
 ---
 <img width="1920" height="1080" alt="battleship-cotonti" src="https://github.com/user-attachments/assets/645e6273-ef3d-4993-9c54-19225c879f35" />
+<img width="1920" height="1080" alt="battleship_cotonti_002" src="https://github.com/user-attachments/assets/f7e5d843-b25e-46fb-a38f-699d441f9738" />
+<img width="1920" height="1080" alt="battleship_cotonti_003" src="https://github.com/user-attachments/assets/72da8066-e1b4-437b-86e0-e0964966ab01" />
+<img width="1920" height="949" alt="battleship_cotonti_004" src="https://github.com/user-attachments/assets/f78a91ac-2c6f-4051-a02a-88749f64faea" />
+<img width="1920" height="1080" alt="battleship_cotonti_005" src="https://github.com/user-attachments/assets/921d9615-1cec-478f-b438-0f1da748c3c2" />
+<img width="1920" height="1080" alt="battleship_cotonti_001" src="https://github.com/user-attachments/assets/8039705a-63b7-43fe-b911-cdb7d6d37950" />
 
 
 
