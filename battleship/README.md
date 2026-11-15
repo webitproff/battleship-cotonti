@@ -1,7 +1,7 @@
 <!-- File: README.md -->
 <!-- Path: plugins/battleship/README.md -->
 
-# Battleship (Морской бой) 2.1.0 for Cotonti
+# Battleship (Морской бой) 3.3.2 for Cotonti
 
 Игра против компьютера и PvP между авторизованными пользователями. Bootstrap 5.3, PHP 8.x.
 
