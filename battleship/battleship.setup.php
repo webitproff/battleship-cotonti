@@ -4,7 +4,7 @@
 Code=battleship
 Name=Battleship
 Description=Battleship: vs AI and PvP (Bootstrap 5.3)
-Version=2.1.0
+Version=3.3.2
 Date=2026-11-15
 Author=webitproff
 Copyright=webitproff https://github.com/webitproff/battleship-cotonti
