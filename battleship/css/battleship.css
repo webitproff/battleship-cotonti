@@ -1,0 +1,202 @@
+/**
+ *  File: battleship.css
+ *  Path: plugins/battleship/css/battleship.css
+ *
+ *  Styles on top of Bootstrap 5.3 (light and dark theme aware).
+ *
+ *
+ *  Web Application (Plugin) for CMF Cotonti v.1.0 compatible with PHP 8.5+, MySQL 8.4+
+ *  Description=Battleship: vs AI and PvP with Chat & Sounds
+ *  Version=3.3.3
+ *  Date=2026-11-16
+ *  Author=webitproff
+ *  Copyright=webitproff https://github.com/webitproff/battleship-cotonti
+ *  License: BSD
+ */
+ 
+
+
+.bs-game {
+	--bsg-water: #cfe6f8;
+	--bsg-water-hover: #a9d3f3;
+	--bsg-ship: #5d7f9e;
+	--bsg-hit: #f39c32;
+	--bsg-sunk: #c0392b;
+	--bsg-miss: #f4f8fb;
+	--bsg-miss-dot: #5f7c93;
+	--bsg-auto: #dfeaf2;
+	--bsg-ok: #7ed492;
+	--bsg-bad: #f19a90;
+	--bsg-label: #5f6b76;
+	--bsg-line: rgba(30, 70, 110, .22);
+}
+[data-bs-theme="dark"] .bs-game {
+	--bsg-water: #17324a;
+	--bsg-water-hover: #21496b;
+	--bsg-ship: #7fa3c2;
+	--bsg-hit: #e08a1e;
+	--bsg-sunk: #d64a3a;
+	--bsg-miss: #101c28;
+	--bsg-miss-dot: #8fb0c8;
+	--bsg-auto: #12273a;
+	--bsg-ok: #2f8a49;
+	--bsg-bad: #a8433a;
+	--bsg-label: #9aa7b3;
+	--bsg-line: rgba(160, 200, 235, .18);
+}
+
+.bs-logo { font-style: normal; }
+
+/* ---------- grid with A-J / 1-10 axes ---------- */
+.bsg-grid {
+	display: grid;
+	grid-template-columns: 1.7rem repeat(10, minmax(0, 1fr));
+	gap: 2px;
+	width: 100%;
+	max-width: 520px;
+	margin: 0 auto;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.bsg-label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: .8rem;
+	font-weight: 700;
+	color: var(--bsg-label);
+	min-height: 1.7rem;
+	border-radius: .25rem;
+	transition: background-color .12s, color .12s;
+}
+.bsg-label.hl {
+	background: var(--bs-primary);
+	color: #fff;
+}
+.bsg-cell {
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	padding: 0;
+	margin: 0;
+	background: var(--bsg-water);
+	border: 1px solid var(--bsg-line);
+	border-radius: .2rem;
+	font-size: clamp(.7rem, 2.4vw, 1.05rem);
+	line-height: 1;
+	color: transparent;
+	transition: background-color .12s, transform .12s;
+}
+button.bsg-cell { cursor: default; }
+button.bsg-cell:focus-visible { outline: 3px solid var(--bs-primary); outline-offset: 1px; z-index: 2; }
+
+.bsg-cell::after {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.bsg-cell.is-ship { background: var(--bsg-ship); border-color: rgba(0, 0, 0, .25); }
+.bsg-cell.is-reveal { background: var(--bsg-ship); opacity: .55; }
+.bsg-cell.is-hit { background: var(--bsg-hit); color: #fff; }
+.bsg-cell.is-hit::after { content: "\2715"; font-weight: 800; }
+.bsg-cell.is-sunk { background: var(--bsg-sunk); color: #fff; }
+.bsg-cell.is-sunk::after { content: "\2715"; font-weight: 800; }
+.bsg-cell.is-miss { background: var(--bsg-miss); }
+.bsg-cell.is-miss::after { content: ""; width: 24%; height: 24%; margin: auto; border-radius: 50%; background: var(--bsg-miss-dot); inset: 0; }
+.bsg-cell.is-auto { background: var(--bsg-auto); }
+.bsg-cell.is-auto::after { content: ""; width: 12%; height: 12%; margin: auto; border-radius: 50%; background: var(--bsg-miss-dot); opacity: .55; inset: 0; }
+.bsg-cell.is-ok { background: var(--bsg-ok); }
+.bsg-cell.is-bad { background: var(--bsg-bad); }
+
+.bsg-grid.is-target button.bsg-cell:not(.is-hit):not(.is-sunk):not(.is-miss):not(.is-auto) { cursor: crosshair; }
+.bsg-grid.is-target button.bsg-cell:not(.is-hit):not(.is-sunk):not(.is-miss):not(.is-auto):hover {
+	background: var(--bsg-water-hover);
+	transform: scale(1.06);
+	z-index: 1;
+	box-shadow: 0 0 0 2px var(--bs-primary);
+}
+.bsg-grid.is-place .bsg-cell { cursor: pointer; }
+.bsg-grid.is-disabled { opacity: .55; pointer-events: none; }
+
+.bsg-cell.just-shot { animation: bsg-pop .5s ease-out; }
+@keyframes bsg-pop {
+	0% { transform: scale(1.5); box-shadow: 0 0 0 0 rgba(255, 255, 255, .8); }
+	100% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+}
+
+/* ---------- legend ---------- */
+.bsg-swatch {
+	flex: 0 0 auto;
+	display: inline-block;
+	width: 1.6rem;
+	height: 1.6rem;
+	border-radius: .25rem;
+	border: 1px solid var(--bsg-line);
+	aspect-ratio: auto;
+}
+.bsg-swatch::after { font-size: .85rem; }
+
+/* ---------- ships / port ---------- */
+.bsg-ship {
+	display: inline-flex;
+	gap: 2px;
+	padding: .3rem .4rem;
+	border: 1px solid var(--bs-border-color);
+	border-radius: .35rem;
+	background: var(--bs-body-bg);
+	cursor: pointer;
+}
+.bsg-ship i {
+	display: block;
+	width: .9rem;
+	height: .9rem;
+	border-radius: .15rem;
+	background: var(--bsg-ship);
+}
+.bsg-ship.is-selected { border-color: var(--bs-primary); box-shadow: 0 0 0 2px var(--bs-primary); }
+.bsg-ship.is-done { opacity: .35; cursor: default; }
+.bsg-ship.is-static { cursor: default; padding: .15rem .25rem; }
+.bsg-ship.is-static i { width: .6rem; height: .6rem; }
+.bsg-ship.is-sunk i { background: var(--bsg-sunk); }
+.bsg-ship.is-sunk { opacity: .65; }
+
+/* ---------- misc ---------- */
+.bsg-log { max-height: 320px; overflow-y: auto; }
+.bsg-log .list-group-item { padding: .45rem .75rem; font-size: .9rem; border-left: 4px solid transparent; }
+.bsg-log .is-miss { border-left-color: var(--bs-secondary-color); }
+.bsg-log .is-hit { border-left-color: var(--bsg-hit); }
+.bsg-log .is-sunk { border-left-color: var(--bsg-sunk); font-weight: 600; }
+.bsg-log .is-mine .bsg-who { color: var(--bs-success); }
+.bsg-log .is-theirs .bsg-who { color: var(--bs-danger); }
+.bsg-aim { font-variant-numeric: tabular-nums; }
+.bsg-banner-text { font-size: 1.05rem; }
+.bsg-player.is-turn { box-shadow: 0 0 0 2px var(--bs-success); }
+
+@media (max-width: 575.98px) {
+	.bsg-grid { grid-template-columns: 1.3rem repeat(10, minmax(0, 1fr)); gap: 1px; }
+	.bsg-label { font-size: .7rem; min-height: 1.3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.bsg-cell, .bsg-label { transition: none; }
+	.bsg-cell.just-shot { animation: none; }
+}
+
+/* ---------- chat (PvP) ---------- */
+.bsg-chat-list { min-height: 90px; max-height: 220px; overflow-y: auto; }
+.bsg-msg { margin-bottom: .4rem; font-size: .9rem; }
+.bsg-msg .bubble {
+	display: inline-block;
+	max-width: 88%;
+	padding: .3rem .65rem;
+	border-radius: .8rem;
+	text-align: left;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+.bsg-msg small { display: block; font-size: .7rem; color: var(--bs-secondary-color); }
+.bsg-msg.is-mine { text-align: right; }
+.bsg-msg.is-mine .bubble { background: var(--bs-primary); color: #fff; }
+.bsg-msg.is-theirs .bubble { background: var(--bs-secondary-bg); color: var(--bs-body-color); }
