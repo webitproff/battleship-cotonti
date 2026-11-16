@@ -1,8 +1,19 @@
-# Battleship for Cotonti
+# Battleship v.3.3.3
 
-A modern Battleship plugin for the [Cotonti](https://www.cotonti.com) CMS/CMF.
+**Battleship is a web application, an online game against the computer and PvP between authorized users, with chat, humorous notifications and sound.**
 
-Play against the computer or in PvP with other authorized users. Classic rules, neat Bootstrap 5.3 interface, clear board layout, and live notifications.
+Web Application (Plugin) for CMF Cotonti v.1.0 compatible with PHP 8.5+, MySQL 8.4+
+
+---
+
+[![Version](https://img.shields.io/badge/version-3.0.0-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
+[![Cotonti Compatibility](https://img.shields.io/badge/Cotonti-v.1-orange.svg)](https://github.com/Cotonti/Cotonti)
+[![PHP](https://img.shields.io/badge/PHP-8.5-purple.svg)](https://www.php.net/releases/8_5_0.php)
+[![MySQL](https://img.shields.io/badge/MySQL-8.4-blue.svg)](https://www.mysql.com/)
+[![Bootstrap v5.3.8](https://img.shields.io/badge/Bootstrap-v5.3.8-blueviolet.svg)](https://getbootstrap.com/)
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/webitproff/battleship-cotonti/blob/main/LICENSE)
+
+---
 
 ---
 <img width="1920" height="1080" alt="battleship-cotonti" src="https://github.com/user-attachments/assets/645e6273-ef3d-4993-9c54-19225c879f35" />
@@ -14,6 +25,24 @@ Play against the computer or in PvP with other authorized users. Classic rules, 
 
 
 
+## Installation / update
+
+1. Copy the `plugins/battleship` folder into the site's `plugins/`.
+2. Admin → Extensions → Battleship → Install.
+3. Add a link to the game anywhere on the site, approximately like this:
+```html
+<!-- IF {PHP|cot_plugin_active('battleship')} -->
+<li>
+	<a class="nav-link" href="{PHP|cot_url('battleship')}" title="{PHP.L.battleship_desc}">
+		<span class="me-2">
+			<i class="fa-solid fa-ship"></i>
+		</span>{PHP.L.battleship_title} 
+	</a>
+</li>
+<!-- ENDIF -->
+```
+
+---
 ## Features
 
 - **Game modes**
@@ -41,81 +70,208 @@ Play against the computer or in PvP with other authorized users. Classic rules, 
   - Player statistics (wins / losses / rating)
   - Ability to surrender
 
----
 
-## Requirements
+## Modes (router battleship.php)
 
-- Cotonti (current branch)
-- PHP 8.1+ (8.5 recommended)
-- MySQL / MariaDB
-- Bootstrap 5.3 on the site (for correct display)
+| Mode | URL | File | Template |
+|---|---|---|---|
+| home | `?e=battleship` | `inc/battleship.home.php` | `tpl/battleship.home.tpl` |
+| my | `?e=battleship&m=my` | `inc/battleship.my.php` | `tpl/battleship.my.tpl` |
+| play | `?e=battleship&m=play&id=N` | `inc/battleship.play.php` | `tpl/battleship.play.tpl` |
 
----
+CSS and JS are included only in `home` and `play`. The `my` page is rendered on the server.
 
-## Installation
+## Chat (PvP only)
+- up to 255 characters, no more than one message per 5 seconds per user (configurable: 3/5/10/15 s);
+- stored in the `battleship_chat` table only while the game is in `active` status;
+- upon completion (victory, surrender, timeout closure, game deletion in admin) messages are deleted automatically;
+  additionally, a safety cleanup is performed on each access to the lobby.
 
-1. Copy the `battleship` folder into the `plugins/` directory of your site.
-2. Go to **Admin → Extensions**.
-3. Find the **Battleship** plugin and install it.
-4. If necessary, configure the "Maximum active games per user" parameter.
+## Sounds
+Web Audio API, no external files. Miss, hit, sunk, victory, defeat, ship placement.
+Chat: own signals for sending (click and 2525 Hz tone, like NASA's quindar tone) and for receiving (air hiss, 2475 Hz tone and a short "roger").
+"Sound on / Sound off" button, state stored in localStorage.
 
-After installation, the game will be available at:
+## Admin
+Admin → Other → Battleship (`admin?m=other&p=battleship`): filter (all / placement / active / finished),
+delete game, purge finished, top players.
 
+## Settings
+Active games limit, extra turn after hit, AI difficulty, inactive games closure, chat on/off, chat interval.
+
+## Files
 ```
-index.php?e=battleship
-```
-
-(or via SEO URLs if configured).
-
----
-
-## Plugin structure
-
-```
-battleship/
-├── battleship.setup.php          # Plugin registration and configuration
-├── battleship.php                # Entry point (standalone)
-├── battleship.ajax.php           # AJAX action handler
-├── css/
-│   └── battleship.css            # Game styles
-├── js/
-│   └── battleship.js             # Client-side logic
-├── lang/
-│   └── battleship.ru.lang.php    # Russian language
+plugins/battleship/
+├── battleship.setup.php
+├── battleship.php
+├── battleship.tools.php
+├── battleship.ajax.php
+├── inc/
+│   ├── battleship.ai.php
+│   ├── battleship.functions.php
+│   ├── battleship.home.php
+│   ├── battleship.my.php
+│   └── battleship.play.php
 ├── tpl/
-│   └── battleship.tpl            # Interface template
-├── setup/
-│   ├── battleship.install.sql    # Tables on installation
-│   └── battleship.uninstall.sql  # Table removal
-└── inc/
-    └── battleship.functions.php  # Game logic
+│   ├── battleship.admin.tpl
+│   ├── battleship.home.tpl
+│   ├── battleship.my.tpl
+│   └── battleship.play.tpl
+├── js/
+│   └── battleship.js
+├── css/
+│   └── battleship.css
+├── lang/
+│   ├── battleship.en.lang.php
+│   └── battleship.ru.lang.php
+└── setup/
+    ├── battleship.install.sql
+    └── battleship.uninstall.sql
 ```
 
 ---
+> **Order modifications or a new extension**    
+> **via [the contacts on the author's page](https://github.com/webitproff)**     
+---
 
-## How to play
 
-1. Log in to the site.
-2. Open the plugin page.
-3. Choose a mode:
-   - **Against the computer** — go straight to ship placement.
-   - **Create PvP game** — wait for an opponent.
-   - **Open games** — join an existing one.
-4. Place your ships (or click "Random") and confirm.
-5. Shoot at the enemy's board. Watch the notifications and legend.
+
+---
+> РУССКИЙ
+---
+
+File: README.md
+
+
+# Battleship (Морской бой) v.3.3.3
+
+
+Морской бой — это веб-приложение, онлайн-игра против компьютера и PvP между авторизованными пользователями, с чатом, шуточными уведомлениями и озвучкой.
+
+Веб-приложение (плагин) для CMF Cotonti v.1.0, совместимо с PHP 8.5+, MySQL 8.4+
 
 ---
 
-## Technical details
-
-- All actions go through AJAX (`battleship.ajax.php`).
-- Game state is stored in tables:
-  - `cot_battleship_games`
-  - `cot_battleship_stats`
-- CSRF protection via the standard Cotonti `x`-token.
-- AI uses a simple hunt mode (after a hit, it strikes adjacent cells).
+[![Version](https://img.shields.io/badge/version-3.0.0-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
+[![Cotonti Compatibility](https://img.shields.io/badge/Cotonti-v.1-orange.svg)](https://github.com/Cotonti/Cotonti)
+[![PHP](https://img.shields.io/badge/PHP-8.5-purple.svg)](https://www.php.net/releases/8_5_0.php)
+[![MySQL](https://img.shields.io/badge/MySQL-8.4-blue.svg)](https://www.mysql.com/)
+[![Bootstrap v5.3.8](https://img.shields.io/badge/Bootstrap-v5.3.8-blueviolet.svg)](https://getbootstrap.com/)
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/webitproff/battleship-cotonti/blob/main/LICENSE)
 
 ---
+
+## Установка / обновление
+
+1. Скопируйте папку `plugins/battleship` в `plugins/` сайта.
+2. Админка → Расширения → Battleship → Установить.
+3. Добавьте ссылку на игру в любом месте сайта примерно такого вида:
+```html
+<!-- IF {PHP|cot_plugin_active('battleship')} -->
+<li>
+	<a class="nav-link" href="{PHP|cot_url('battleship')}" title="{PHP.L.battleship_desc}">
+		<span class="me-2">
+			<i class="fa-solid fa-ship"></i>
+		</span>{PHP.L.battleship_title} 
+	</a>
+</li>
+<!-- ENDIF -->
+```
+
+---
+## Возможности
+
+- **Режимы игры**
+  - Против компьютера (ИИ)
+  - PvP — создание открытой игры и присоединение к существующей
+
+- **Интерфейс**
+  - Два отдельных поля: «Ваш флот» и «Поле противника»
+  - Координаты **A–J** / **1–10**
+  - Легенда с цветными обозначениями клеток
+  - Toast-уведомления с разными фразами («Попал!», «Мимо!», «Потопил!» и т.д.)
+  - Адаптивная вёрстка под Bootstrap 5.3
+
+- **Расстановка кораблей**
+  - Ручная расстановка с превью
+  - Случайная расстановка
+  - Поворот корабля
+  - Очистка поля
+  - Счётчик оставшихся кораблей
+
+- **Игровая механика**
+  - Классический состав флота: 1×4, 2×3, 3×2, 4×1
+  - Корабли не касаются друг друга (включая диагонали)
+  - Определение потопления
+  - Статистика игроков (победы / поражения / рейтинг)
+  - Возможность сдаться
+
+
+## Режимы (роутер battleship.php)
+
+| Режим | URL | Файл | Шаблон |
+|---|---|---|---|
+| home | `?e=battleship` | `inc/battleship.home.php` | `tpl/battleship.home.tpl` |
+| my | `?e=battleship&m=my` | `inc/battleship.my.php` | `tpl/battleship.my.tpl` |
+| play | `?e=battleship&m=play&id=N` | `inc/battleship.play.php` | `tpl/battleship.play.tpl` |
+
+CSS и JS подключаются только в `home` и `play`. Страница `my` рендерится на сервере.
+
+## Чат (только PvP)
+- до 255 символов, не чаще одного сообщения в 5 секунд от пользователя (настраивается: 3/5/10/15 с);
+- хранится в таблице `battleship_chat` только пока игра в статусе `active`;
+- при завершении (победа, сдача, закрытие по таймауту, удаление игры в админке) сообщения удаляются автоматически;
+  дополнительно страховочная очистка выполняется при каждом обращении к лобби.
+
+## Звуки
+Web Audio API, внешних файлов нет. Мимо, попал, потопил, победа, поражение, постановка корабля.
+Чат: свои сигналы на отправку (щелчок и тон 2525 Гц, как квиндар-тон NASA) и на получение (шипение эфира, тон 2475 Гц и короткий «roger»).
+Кнопка «Звук вкл / Звук выкл», состояние хранится в localStorage.
+
+## Админка
+Админка → Другое → Battleship (`admin?m=other&p=battleship`): фильтр (все / расстановка / активные / завершённые),
+удаление игры, очистка завершённых, топ игроков.
+
+## Настройки
+Лимит активных игр, ход после попадания, сложность ИИ, закрытие неактивных игр, чат вкл/выкл, интервал чата.
+
+## Файлы
+```
+plugins/battleship/
+├── battleship.setup.php
+├── battleship.php
+├── battleship.tools.php
+├── battleship.ajax.php
+├── inc/
+│   ├── battleship.ai.php
+│   ├── battleship.functions.php
+│   ├── battleship.home.php
+│   ├── battleship.my.php
+│   └── battleship.play.php
+├── tpl/
+│   ├── battleship.admin.tpl
+│   ├── battleship.home.tpl
+│   ├── battleship.my.tpl
+│   └── battleship.play.tpl
+├── js/
+│   └── battleship.js
+├── css/
+│   └── battleship.css
+├── lang/
+│   ├── battleship.en.lang.php
+│   └── battleship.ru.lang.php
+└── setup/
+    ├── battleship.install.sql
+    └── battleship.uninstall.sql
+```
+
+---
+> **Заказать правки или новое расширение**    
+> **можно [по контактам на странице автора](https://github.com/webitproff)**     
+---
+
+
+
 
 ## Author
 
@@ -126,13 +282,3 @@ License: BSD
 Repository: [https://github.com/webitproff/battleship-cotonti](https://github.com/webitproff/battleship-cotonti)
 
 ---
-
-## Changelog
-
-### 2.0.0
-- Completely rewritten interface
-- Separate player and opponent boards
-- Coordinate grid A1–J10
-- Legend and toast notifications
-- Improved PvP experience
-- PHP 8.5 compatibility
