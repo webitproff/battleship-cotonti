@@ -6,7 +6,7 @@ Web Application (Plugin) for CMF Cotonti v.1.0 compatible with PHP 8.5+, MySQL 8
 
 ---
 
-[![Version](https://img.shields.io/badge/version-3.0.0-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
+[![Version](https://img.shields.io/badge/version-3.3.3-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
 [![Cotonti Compatibility](https://img.shields.io/badge/Cotonti-v.1-orange.svg)](https://github.com/Cotonti/Cotonti)
 [![PHP](https://img.shields.io/badge/PHP-8.5-purple.svg)](https://www.php.net/releases/8_5_0.php)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4-blue.svg)](https://www.mysql.com/)
@@ -152,7 +152,7 @@ File: README.md
 
 ---
 
-[![Version](https://img.shields.io/badge/version-3.0.0-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
+[![Version](https://img.shields.io/badge/version-3.3.3-green.svg)](https://github.com/webitproff/battleship-cotonti/releases)
 [![Cotonti Compatibility](https://img.shields.io/badge/Cotonti-v.1-orange.svg)](https://github.com/Cotonti/Cotonti)
 [![PHP](https://img.shields.io/badge/PHP-8.5-purple.svg)](https://www.php.net/releases/8_5_0.php)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4-blue.svg)](https://www.mysql.com/)
